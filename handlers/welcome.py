@@ -17,7 +17,7 @@ from telegram.ext import (
 )
 
 from database import database
-
+from utils.image import create_welcome_card
 
 # ======================================================
 # NOUVEAUX MEMBRES
@@ -70,8 +70,16 @@ async def welcome_member(
             .replace("{group}", chat.title)
         )
 
-        await update.message.reply_html(welcome)
+        card = create_welcome_card(
+    member.full_name,
+    chat.title,
+)
 
+await update.message.reply_photo(
+    photo=card,
+    caption=welcome,
+    parse_mode="HTML",
+)
 
 # ======================================================
 # ENREGISTREMENT
