@@ -53,12 +53,9 @@ def create_application() -> Application:
     """
     app = Application.builder().token(BOT_TOKEN).build()
 
-    # Les handlers seront ajoutés ici
-    # register_commands(app)
-    # register_welcome(app)
-    # register_admin(app)
+register_handlers(app)
 
-    return app
+return app
 
 
 # ======================================================
