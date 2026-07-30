@@ -14,18 +14,21 @@ from .commands import register_commands
 from .welcome import register_welcome
 from .goodbye import register_goodbye
 from .admin import register_admin
+from .callbacks import register_callbacks
 
 
 # ======================================================
 # REGISTER
 # ======================================================
 
-def register_handlers(app: Application) -> None:
-    """
-    Enregistre tous les handlers.
-    """
+def register_handlers(app: Application):
 
     register_commands(app)
+
     register_welcome(app)
+
     register_goodbye(app)
+
     register_admin(app)
+
+    register_callbacks(app)
