@@ -30,7 +30,8 @@ async def is_admin(update: Update) -> bool:
         update.effective_user.id
     )
 
-    return member.status in (
+    from utils.constants import ADMIN_ROLES (
         "administrator",
         "creator",
     )
+    return member.status in ADMIN_ROLES
