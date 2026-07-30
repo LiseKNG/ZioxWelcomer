@@ -3,6 +3,7 @@ utils/__init__.py
 
 Fonctions utilitaires de ZioxWelcomer.
 """
+from .constants import *
 
 from .logger import logger
 from .permissions import is_admin
