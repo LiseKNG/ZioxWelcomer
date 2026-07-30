@@ -69,3 +69,18 @@ async def callback_handler(
         )
 
         return
+
+# ======================================================
+# REGISTER
+# ======================================================
+
+def register_callbacks(app: Application):
+    """
+    Enregistre les callbacks.
+    """
+
+    app.add_handler(
+        CallbackQueryHandler(
+            callback_handler
+        )
+    )
