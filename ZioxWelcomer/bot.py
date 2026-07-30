@@ -15,6 +15,7 @@ from telegram.ext import Application
 
 from config import BOT_TOKEN, LOG_LEVEL
 from database import database
+from handlers import register_handlers
 
 
 # ======================================================
