@@ -34,6 +34,13 @@ from .settings import (
     set_setting,
 )
 
+from .captcha import (
+    initialize_captcha,
+    create_captcha,
+    get_captcha,
+    verify_captcha,
+    delete_captcha,
+)
 
 # ======================================================
 # INITIALISATION GLOBALE
@@ -48,3 +55,4 @@ async def initialize_database():
     await initialize_members()
     await initialize_logs()
     await initialize_settings()
+    await initialize_captcha()
