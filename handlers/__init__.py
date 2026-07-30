@@ -15,6 +15,7 @@ from .welcome import register_welcome
 from .goodbye import register_goodbye
 from .admin import register_admin
 from .callbacks import register_callbacks
+from .moderation import register_moderation
 
 
 # ======================================================
@@ -32,3 +33,5 @@ def register_handlers(app: Application):
     register_admin(app)
 
     register_callbacks(app)
+    
+    register_moderation(app)
