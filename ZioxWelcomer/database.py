@@ -153,25 +153,53 @@ class Database:
             )
 
             await db.commit()
+            
+async def get_group(self, chat_id: int):
+    """
+    Retourne les informations d'un groupe.
 
-    async def get_group(self, chat_id: int):
-        """
-        Retourne les informations d'un groupe.
-        """
+    Si le groupe n'existe pas encore, il est créé automatiquement.
+    """
 
-        async with aiosqlite.connect(self.db_path) as db:
+    async with aiosqlite.connect(self.db_path) as db:
 
-            cursor = await db.execute(
-                """
-                SELECT *
-                FROM groups
-                WHERE chat_id = ?
-                """,
-                (chat_id,)
-            )
+        db.row_factory = aiosqlite.Row
 
-            return await cursor.fetchone()
+        cursor = await db.execute(
+            """
+            SELECT *
+            FROM groups
+            WHERE chat_id = ?
+            """,
+            (chat_id,),
+        )
 
+        group = await cursor.fetchone()
+
+        if group:
+            return group
+
+        await db.execute(
+            """
+            INSERT INTO groups(chat_id)
+            VALUES(?)
+            """,
+            (chat_id,),
+        )
+
+        await db.commit()
+
+        cursor = await db.execute(
+            """
+            SELECT *
+            FROM groups
+            WHERE chat_id = ?
+            """,
+            (chat_id,),
+        )
+
+        return await cursor.fetchone()
+    
     async def set_welcome(self, chat_id: int, message: str):
         """
         Modifie le message de bienvenue.
@@ -289,6 +317,8 @@ class Database:
     # SETTINGS
     # ==================================================
 
+    
+    
     async def set_setting(
         self,
         chat_id: int,
