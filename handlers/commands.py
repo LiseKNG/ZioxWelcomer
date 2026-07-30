@@ -15,7 +15,12 @@ from telegram.ext import (
     ContextTypes,
 )
 
-from database import database
+from database import (
+    create_group,
+    get_group,
+)
+
+from locales import t
 
 
 # ======================================================
@@ -30,17 +35,18 @@ async def start_command(
     Commande /start
     """
 
-    if update.effective_chat:
+    chat = update.effective_chat
 
-        await database.create_group(
-            update.effective_chat.id,
-            update.effective_chat.title or "Conversation privée",
+    if chat:
+
+        await create_group(
+            chat.id,
+            chat.title or "Conversation privée",
         )
 
     await update.message.reply_text(
-        "👋 Bonjour !\n\n"
-        "Je suis ZioxWelcomer.\n"
-        "Utilise /help pour voir toutes mes commandes."
+        text=t("START"),
+        parse_mode="Markdown",
     )
 
 
@@ -52,14 +58,10 @@ async def help_command(
     Commande /help
     """
 
-    text = (
-        "📚 Commandes disponibles\n\n"
-        "/start - Démarrer le bot\n"
-        "/help - Afficher cette aide\n"
-        "/rules - Voir les règles du groupe"
+    await update.message.reply_text(
+        text=t("HELP"),
+        parse_mode="Markdown",
     )
-
-    await update.message.reply_text(text)
 
 
 async def rules_command(
@@ -72,18 +74,25 @@ async def rules_command(
 
     chat = update.effective_chat
 
-    group = await database.get_group(chat.id)
+    group = await get_group(chat.id)
 
-    if not group:
+    if group is None:
+
         await update.message.reply_text(
-            "Aucune règle n'a encore été configurée."
+            t("NO_RULES")
         )
+
         return
 
     rules = group["rules"]
 
     if not rules:
-        rules = "Aucune règle n'a encore été configurée."
+
+        await update.message.reply_text(
+            t("NO_RULES")
+        )
+
+        return
 
     await update.message.reply_text(rules)
 
