@@ -42,6 +42,13 @@ from .captcha import (
     delete_captcha,
 )
 
+from .warnings import (
+    initialize_warnings,
+    add_warning,
+    count_warnings,
+    clear_warnings,
+)
+
 # ======================================================
 # INITIALISATION GLOBALE
 # ======================================================
@@ -56,3 +63,4 @@ async def initialize_database():
     await initialize_logs()
     await initialize_settings()
     await initialize_captcha()
+    await initialize_warnings()
